@@ -3,6 +3,7 @@ export class CreateEc2Instance {
   viewAmount: number
   maxCount: number
   minCount: number
-  ImageId: string
-  InstanceType: string
+  imageId: string
+  instanceType: string
+  region: string
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 
-import { BotGatewayController } from './bot-gateway.controller'
-import { BotGatewaySerivce } from './bot-gateway.service'
+import { BotGatewayController } from './botGateway.controller'
+import { BotGatewaySerivce } from './botGateway.service'
 
 @Module({
   imports: [

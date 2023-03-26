@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 
-import { BotAwsServiceController } from './bot-aws.controller'
-import { BotAwsService } from './bot-aws.service'
+import { BotAwsServiceController } from './botAws.controller'
+import { BotAwsService } from './botAws.service'
 
 @Module({
   controllers: [BotAwsServiceController],
