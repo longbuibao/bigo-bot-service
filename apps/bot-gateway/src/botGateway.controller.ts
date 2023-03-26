@@ -6,7 +6,7 @@ import {
 } from '@nestjs/microservices'
 import { Observable, map } from 'rxjs'
 
-import { CreateEc2Instance } from './dtos/CreateEc2Instance'
+import { CreateEc2InstanceDto } from '@bigo-bot/common/dtos/CreateEc2InstanceDto'
 
 @Controller()
 export class BotGatewayController {
@@ -26,7 +26,7 @@ export class BotGatewayController {
   }
 
   @Post('create-ec2-instance')
-  createEc2Instance (@Body() createEc2Instance: CreateEc2Instance): Observable<any> {
+  createEc2Instance (@Body() createEc2Instance: CreateEc2InstanceDto): Observable<any> {
     return this.client.send({ cmd: 'create_ec2_instance' }, createEc2Instance).pipe(map(data => data))
   }
 }

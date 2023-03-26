@@ -1,8 +1,10 @@
 import { Controller } from '@nestjs/common'
 import { BotAwsService } from './botAws.service'
-import { MessagePattern } from '@nestjs/microservices'
+import { MessagePattern, Payload } from '@nestjs/microservices'
 import { ListUsersCommandOutput } from '@aws-sdk/client-iam'
 import { RunInstancesCommandOutput } from '@aws-sdk/client-ec2'
+
+import { CreateEc2InstanceDto } from '@bigo-bot/common/dtos/CreateEc2InstanceDto'
 
 @Controller()
 export class BotAwsServiceController {
@@ -14,7 +16,7 @@ export class BotAwsServiceController {
   }
 
   @MessagePattern({ cmd: 'create_ec2_instance' })
-  async createEc2Instances (): Promise<RunInstancesCommandOutput> {
-    return await this.botAwsService.createEc2Instances()
+  async createEc2Instances (@Payload() createEc2InstanceDto: CreateEc2InstanceDto): Promise<RunInstancesCommandOutput> {
+    return await this.botAwsService.createEc2Instances(createEc2InstanceDto)
   }
 }

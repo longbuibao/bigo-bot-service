@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { IAMClient, ListUsersCommand, ListUsersCommandOutput, ListUsersCommandInput } from '@aws-sdk/client-iam'
 import { RunInstancesCommand, EC2Client, RunInstancesCommandOutput, RunInstancesCommandInput } from '@aws-sdk/client-ec2'
 
+import { CreateEc2InstanceDto } from '@bigo-bot/common/dtos/CreateEc2InstanceDto'
+
 @Injectable()
 export class BotAwsService {
   async getIamUsers (): Promise<ListUsersCommandOutput> {
@@ -10,13 +12,15 @@ export class BotAwsService {
     return await client.send<ListUsersCommandInput, ListUsersCommandOutput>(listUsersRequest)
   }
 
-  async createEc2Instances (): Promise<RunInstancesCommandOutput> {
-    const client = new EC2Client({ region: 'us-east-1' })
+  async createEc2Instances (payload: CreateEc2InstanceDto): Promise<RunInstancesCommandOutput> {
+    const { maxCount, minCount, region, imageId, instanceType } = payload
+
+    const client = new EC2Client({ region })
     const command = new RunInstancesCommand({
-      MaxCount: 1,
-      ImageId: 'ami-0ebabb8cf39198221',
-      MinCount: 1,
-      InstanceType: 't1.micro'
+      MaxCount: maxCount | 1,
+      ImageId: imageId,
+      MinCount: minCount | 1,
+      InstanceType: instanceType
     })
 
     return await client.send<RunInstancesCommandInput, RunInstancesCommandOutput>(command)
