@@ -18,13 +18,13 @@ const installNodeJS = (version) => {
   }
 }
 
-const checkNodeVersion = (version) => {
+const checkIfNodeVersionInstalled = (version) => {
   if (!shell.which('node')) {
     console.log('NodeJS is not installed. Installing NodeJS...')
     installNodeJS(version)
   } else {
     shell.exec('node -v', (_, systemInstalledNodeVersion) => {
-      if (!/16\.15\.1/.test(systemInstalledNodeVersion)) {
+      if (!systemInstalledNodeVersion.includes(version)) {
         console.log(`NodeJS version ${version} is not installed. Installing ${version} ...`)
         installNodeJS(version)
       } else console.log(`Node ${version.replace('\r\n', '')} installed`)
@@ -32,4 +32,4 @@ const checkNodeVersion = (version) => {
   }
 }
 
-checkNodeVersion('16.15.1')
+checkIfNodeVersionInstalled('16.15.1')
