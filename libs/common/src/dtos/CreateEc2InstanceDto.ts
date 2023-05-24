@@ -1,6 +1,8 @@
-import { IsString, IsInt, IsIn, IsOptional } from 'class-validator'
+import { IsString, IsInt, IsIn } from 'class-validator'
 
 const Region = ['us-east-1']
+
+// todo: add more instanceType here
 const InstanceType = ['t1.micro']
 
 export class CreateEc2InstanceDto {
@@ -9,14 +11,6 @@ export class CreateEc2InstanceDto {
 
   @IsInt()
     viewAmount: number
-
-  @IsInt()
-  @IsOptional()
-    maxCount: number
-
-  @IsInt()
-  @IsOptional()
-    minCount: number
 
   @IsString()
     imageId: string
