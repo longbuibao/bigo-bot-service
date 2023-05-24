@@ -6,17 +6,13 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build bot-gateway && nest build bot-aws && nest build common",
     "format": "ts-standard --fix",
     "start": "nest start",
     "start:bot-aws": "nest start --watch bot-aws",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/bigo-gateway/main",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+    "start:prod": "node dist/apps/bigo-gateway/main"
   },
   "dependencies": {
     "@aws-sdk/client-ec2": "^3.299.0",

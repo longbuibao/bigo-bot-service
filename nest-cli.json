@@ -28,15 +28,6 @@
         "tsConfigPath": "apps/bot-aws/tsconfig.app.json"
       }
     },
-    "bot-auth": {
-      "type": "application",
-      "root": "apps/bot-auth",
-      "entryFile": "main",
-      "sourceRoot": "apps/bot-auth/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/bot-auth/tsconfig.app.json"
-      }
-    },
     "common": {
       "type": "library",
       "root": "libs/common",
