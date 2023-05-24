@@ -5,8 +5,11 @@ import {
   Transport
 } from '@nestjs/microservices'
 import { Observable, map } from 'rxjs'
+import { ListUsersCommandOutput } from '@aws-sdk/client-iam'
+import { RunInstancesCommandOutput } from '@aws-sdk/client-ec2'
 
 import { CreateEc2InstanceDto } from '@bigo-bot/common/dtos/CreateEc2InstanceDto'
+import { GET_IAM_USERS, CREATE_EC2_INSTANCE } from '@bigo-bot/common/command'
 
 @Controller()
 export class BotGatewayController {
@@ -21,12 +24,12 @@ export class BotGatewayController {
   }
 
   @Get('iam-users')
-  getIAmUser (): Observable<any> {
-    return this.client.send({ cmd: 'get_iam_users' }, '').pipe(map(data => data))
+  getIAmUser (): Observable<ListUsersCommandOutput> {
+    return this.client.send({ cmd: GET_IAM_USERS }, '').pipe(map<ListUsersCommandOutput, any>(data => data))
   }
 
   @Post('create-ec2-instance')
-  createEc2Instance (@Body() createEc2Instance: CreateEc2InstanceDto): Observable<any> {
-    return this.client.send({ cmd: 'create_ec2_instance' }, createEc2Instance).pipe(map(data => data))
+  createEc2Instance (@Body() createEc2InstanceDto: CreateEc2InstanceDto): Observable<RunInstancesCommandOutput> {
+    return this.client.send({ cmd: CREATE_EC2_INSTANCE }, createEc2InstanceDto).pipe(map<RunInstancesCommandOutput, any>(data => data))
   }
 }

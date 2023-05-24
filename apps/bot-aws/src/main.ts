@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core'
 import { MicroserviceOptions, Transport } from '@nestjs/microservices'
-import { BotAwsModule } from './botAws.module'
+import { Ec2Module } from './Ec2Module/ec2.module'
 
 async function bootstrap (): Promise<void> {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    BotAwsModule,
+    Ec2Module,
     {
       transport: Transport.REDIS,
       options: {
