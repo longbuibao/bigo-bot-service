@@ -13,10 +13,12 @@ import {
 
 import { CreateEc2InstanceDto } from '@bigo-bot/common/dtos/CreateEc2InstanceDto'
 import { countNumberOfInstanceBaseOnView } from '@bigo-bot/common/utils'
+import { CreateEc2InstanceResult } from '@bigo-bot/common/types/CreateEc2InstanceResult'
+import { bigoLog } from '@bigo-bot/common/log'
 
 @Injectable()
 export class Ec2Service {
-  async spinUpEc2Bots (createEc2InstanceDto: CreateEc2InstanceDto): Promise<Instance[]> {
+  async spinUpEc2Bots (createEc2InstanceDto: CreateEc2InstanceDto): Promise<CreateEc2InstanceResult[]> {
     const client = new EC2Client({ region: createEc2InstanceDto.region })
     const numberOfInstance = countNumberOfInstanceBaseOnView(createEc2InstanceDto.viewAmount)
 
@@ -28,9 +30,23 @@ export class Ec2Service {
       MaxCount: numberOfInstance
     })
 
+    bigoLog(`Creating ${numberOfInstance} EC2 Instances with Idol ${createEc2InstanceDto.idolUrl}`)
     const response = await client.send<RunInstancesCommandInput, RunInstancesCommandOutput>(command)
+    bigoLog(`Created ${numberOfInstance} instances!`)
+
+    bigoLog('Waiting for EC2 instances running...')
     const instances = await this.getInstanceWithRunningState(response.Instances as Instance[], client)
-    return instances
+
+    return instances.map((instance: Instance) => {
+      const createResult: CreateEc2InstanceResult = {
+        InstanceId: instance.InstanceId,
+        State: {
+          Code: instance.State?.Code ?? -9999,
+          Name: instance.State?.Name ?? 'Undefined State Name'
+        }
+      }
+      return createResult
+    })
   }
 
   async waitForInstanceHasRunningState (instances: Instance[], ec2Client: EC2Client): Promise<WaiterState> {
@@ -46,21 +62,21 @@ export class Ec2Service {
       startTime.setMinutes(startTime.getMinutes() - 3)
 
       try {
-        const timeFilter = {
-          Name: 'launch-time',
-          Values: [
-            startTime.toISOString(),
-            new Date().toISOString()
-          ]
-        }
+        // const timeFilter = {
+        //   Name: 'launch-time',
+        //   Values: [
+        //     startTime.toISOString(),
+        //     new Date().toISOString()
+        //   ]
+        // }
 
-        const stateFilter = {
-          Name: 'instance-state-name',
-          Values: ['running']
-        }
+        // const stateFilter = {
+        //   Name: 'instance-state-name',
+        //   Values: ['running']
+        // }
 
         const command = new DescribeInstancesCommand({
-          Filters: [timeFilter, stateFilter]
+          // Filters: [timeFilter, stateFilter]
         })
 
         const response = (await ec2Client.send(command)).Reservations
