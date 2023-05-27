@@ -15,9 +15,9 @@ const getCurrentTimestamp = (): string => {
 }
 
 export const bigoLog = (message: string): void => {
-  console.log(`${chalk.bgGreen('[BIGO_LOG]') as string} - ${getCurrentTimestamp()} \t ${chalk.green(message) as string}`)
+  console.log(`${chalk.bgGreen('[BIGO_LOG]')} - ${getCurrentTimestamp()} \t ${chalk.green(message)}`)
 }
 
 export const bigoLogError = (message: string): void => {
-  console.log(`${chalk.bgRed('[BIGO_LOG]') as string} - ${getCurrentTimestamp()} \t ${chalk.red(message) as string}`)
+  console.log(`${chalk.bgRed('[BIGO_LOG]')} - ${getCurrentTimestamp()} \t ${chalk.red(message)}`)
 }

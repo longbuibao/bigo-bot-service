@@ -15,12 +15,16 @@ import { CreateEc2InstanceDto } from '@bigo-bot/common/dtos/CreateEc2InstanceDto
 import { countNumberOfInstanceBaseOnView } from '@bigo-bot/common/utils'
 import { CreateEc2InstanceResult } from '@bigo-bot/common/types/CreateEc2InstanceResult'
 import { bigoLog } from '@bigo-bot/common/log'
+import { PrismaService } from '@bigo-bot/common/prisma/prisma.service'
 
 @Injectable()
 export class Ec2Service {
   private readonly ec2Client: EC2Client
-  constructor () {
+  private readonly prismaService: PrismaService
+
+  constructor (prismaService: PrismaService) {
     this.ec2Client = new EC2Client({ region: 'us-east-1' })
+    this.prismaService = prismaService
   }
 
   async spinUpEc2Bots (createEc2InstanceDto: CreateEc2InstanceDto): Promise<CreateEc2InstanceResult[]> {
