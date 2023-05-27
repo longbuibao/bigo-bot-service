@@ -1,0 +1,46 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Idol {
+  id            String           @id @default(uuid())
+  name          String
+	url 					String
+  status        IdolStatus
+  ec2Instances  Ec2Instance[]
+}
+
+model Ec2Instance {
+  id         String      @id @default(uuid())
+  name       String
+  idolId     String
+	awsId 		 String
+  idol       Idol        @relation(fields: [idolId], references: [id])
+  accounts   Account[]
+}
+
+model Account {
+  id              String         @id @default(uuid())
+  phoneNumber     String
+  password        String
+  status          AccountStatus
+  ec2InstanceId   String
+  ec2Instance     Ec2Instance    @relation(fields: [ec2InstanceId], references: [id])
+}
+
+enum IdolStatus {
+  LIVE
+  CHILL
+}
+
+enum AccountStatus {
+  BUSY
+  FREE
+}
