@@ -11,19 +11,17 @@ generator client {
 
 model Idol {
   id            String           @id @default(uuid())
-  name          String
 	url 					String
-  status        IdolStatus
+  status        IdolStatus       @default(CHILL)
   ec2Instances  Ec2Instance[]
 }
 
 model Ec2Instance {
-  id            String      @id @default(uuid())
-  name          String
+  id            String            @id @default(uuid())
   idolId        String
 	awsId 		    String
-  instanseState InstanceStateName
-  idol          Idol        @relation(fields: [idolId], references: [id])
+  instanseState InstanceStateName @default(PENDING)
+  idol          Idol              @relation(fields: [idolId], references: [id])
   accounts      Account[]
 }
 

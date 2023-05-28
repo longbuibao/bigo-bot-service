@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Idol" ALTER COLUMN "status" SET DEFAULT 'CHILL';
