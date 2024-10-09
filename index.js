@@ -1,5 +1,7 @@
 const shell = require('shelljs')
 
+const dude = 1
+
 const installNodeJS = (version) => {
   if (!shell.which('nvm')) {
     console.log('nvm is not installed. Installing nvm...')
