@@ -2,6 +2,7 @@ const shell = require('shelljs')
 
 const dude = 1
 const bro = 2
+const me = 3
 
 const installNodeJS = (version) => {
   if (!shell.which('nvm')) {
